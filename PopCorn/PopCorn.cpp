@@ -66,7 +66,7 @@ void ballMove(void* arg)
 
 			if ((bY == MAX_Y - 2 && bX >= pX + 1 && bX < pX + WIDTH - 1) || (y <= 0)) // upper border / platform
 			{
-				ySpeed = -ySpeed;
+				ySpeed = -ySpeed;				
 			}
 			else
 
@@ -144,6 +144,8 @@ int main()
 				}
 				break;
 			case 27: // ESCAPE:
+				TerminateThread(hBall, 0); // Dangerous source of errors!
+				CloseHandle(hBall);
 				gameOver();
 			}
 		}

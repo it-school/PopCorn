@@ -2,6 +2,7 @@
 #include <Windows.h>
 #include <conio.h>
 #include <ctime>
+#include "PopCorn.h"
 
 using namespace std;
 
@@ -90,19 +91,13 @@ void ballMove(void* arg)
 			blX = bX;
 			blY = bY;
 		}
-		Sleep(10);
+		Sleep(5);
 	} while (true);
 }
 
 
-int main()
+void drawWalls()
 {
-	ChangeConsoleCursorVisibility();
-
-	char key = 0;
-
-	//	double x = 0, y = 0, xSpeed = SPEED, ySpeed = SPEED;
-
 	for (char y = 0; y < MAX_Y; y++)
 	{
 		setcur(MAX_X, y, 15);
@@ -115,6 +110,15 @@ int main()
 		cout << "-";
 	}
 	cout << endl;
+}
+
+int main()
+{
+	ChangeConsoleCursorVisibility();
+
+	char key = 0;
+
+	drawWalls();
 
 	HANDLE hBall = CreateThread(0, 0, (LPTHREAD_START_ROUTINE)ballMove, 0, 0, 0);
 	//	HANDLE hPlatform = CreateThread(0, 0, (LPTHREAD_START_ROUTINE)platformMove, 0, 0, 0);
@@ -129,24 +133,24 @@ int main()
 
 			switch (key)
 			{
-			case 75: // LEFT
-				if (pX > 0)
-				{
-					drawPlatform(pX--, pY, WIDTH, 0);
-					drawPlatform(pX, pY, WIDTH, 14);
-				}
-				break;
-			case 77: // RIGHT
-				if (pX < MAX_X - WIDTH)
-				{
-					drawPlatform(pX++, pY, WIDTH, 0);
-					drawPlatform(pX, pY, WIDTH, 14);
-				}
-				break;
-			case 27: // ESCAPE:
-				TerminateThread(hBall, 0); // Dangerous source of errors!
-				CloseHandle(hBall);
-				gameOver();
+				case 75: // LEFT
+					if (pX > 0)
+					{
+						drawPlatform(pX--, pY, WIDTH, 0);
+						drawPlatform(pX, pY, WIDTH, 14);
+					}
+					break;
+				case 77: // RIGHT
+					if (pX < MAX_X - WIDTH)
+					{
+						drawPlatform(pX++, pY, WIDTH, 0);
+						drawPlatform(pX, pY, WIDTH, 14);
+					}
+					break;
+				case 27: // ESCAPE:
+					TerminateThread(hBall, 0); // Dangerous source of errors!
+					CloseHandle(hBall);
+					gameOver();
 			}
 		}
 	} while (true);
